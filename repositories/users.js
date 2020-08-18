@@ -1,4 +1,5 @@
 const fs = require ('fs');
+const crypto = require ('crypto');
 
 class UsersRepository {
   //check if the user info is saved into a json file
@@ -28,6 +29,7 @@ class UsersRepository {
   }
 
   async create (attributes) {
+    attributes.id = this.randomId ();
     const records = await this.getAll ();
     records.push (attributes);
     //write the updated 'records' array back to this.filename
@@ -40,6 +42,10 @@ class UsersRepository {
       JSON.stringify (records, null, 2) //2 level of indentation
     );
   }
+
+  randomId () {
+    return crypto.randomBytes (4).toString ('hex'); //turn buffer data into hex
+  }
 }
 
 const test = async () => {
@@ -48,4 +54,5 @@ const test = async () => {
   const users = await repo.getAll ();
   console.log (users);
 };
+
 test ();
