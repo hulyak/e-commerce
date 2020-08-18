@@ -28,10 +28,13 @@ class UsersRepository {
 
   async create (attributes) {
     attributes.id = this.randomId ();
+
     const records = await this.getAll ();
     records.push (attributes);
     //write the updated 'records' array back to this.filename
     await this.writeAll (records);
+
+    return attributes;
   }
 
   async writeAll (records) {
