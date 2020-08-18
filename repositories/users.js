@@ -51,14 +51,34 @@ class UsersRepository {
     const records = await this.getAll ();
     return records.find (record => record.id === id);
   }
+
+  async delete (id) {
+    const records = await this.getAll ();
+    const filteredRecords = records.filter (record => record.id !== id); //return true
+    await this.writeAll (filteredRecords);
+  }
+
+  async update (id, attributes) {
+    const records = await this.getAll ();
+    const record = records.find (record => record.id === id);
+
+    if (!record) {
+      throw new Error (`Record with id ${id} not found`);
+    }
+    // Object.assign mutates the first argument passed to it.  In other words, we are making changes to the 'record' object - we are not creating a new one.
+    Object.assign (record, attributes);
+    await this.writeAll (records);
+  }
 }
 
 const test = async () => {
   const repo = new UsersRepository ('users.json');
   // await repo.create ({email: 'test@test.com', password: 'password'});
   // const users = await repo.getAll ();
-  const user = await repo.getOne ('4b434f0e');
-  console.log (user);
+  // const user = await repo.getOne('4b434f0e');
+  // await repo.delete ('7596463b');
+  // console.log (user);
+  await repo.update ('02ab2230', {name: 'hulya'});
 };
 
 test ();
