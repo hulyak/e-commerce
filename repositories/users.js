@@ -7,9 +7,7 @@ class UsersRepository {
     if (!filename) {
       throw new Error ('Creating a repository requires a filename');
     }
-
     this.filename = filename;
-
     //check if the file exists, if it doesn't exist, create new file
     //constructor function cannot be async
     try {
@@ -89,20 +87,22 @@ class UsersRepository {
     }
   }
 }
+//export an instance
+module.exports = new UsersRepository ('users.json');
 
-const test = async () => {
-  const repo = new UsersRepository ('users.json');
-  // await repo.create ({email: 'test@test.com', password: 'password'});
-  // const users = await repo.getAll ();
-  // const user = await repo.getOne('4b434f0e');
-  // await repo.delete ('7596463b');
-  // console.log (user);
-  // await repo.update ('02ab2230', {name: 'hulya'});
-  const user = await repo.getOneBy ({
-    email: 'test@test.com',
-    id: '02ab2230',
-  });
-  console.log (user);
-};
+// const test = async () => {
+//   const repo = new UsersRepository ('users.json');
+// await repo.create ({email: 'test@test.com', password: 'password'});
+// const users = await repo.getAll ();
+// const user = await repo.getOne('4b434f0e');
+// await repo.delete ('7596463b');
+// console.log (user);
+// await repo.update ('02ab2230', {name: 'hulya'});
+//   const user = await repo.getOneBy ({
+//     email: 'test@test.com',
+//     id: '02ab2230',
+//   });
+//   console.log (user);
+// };
 
-test ();
+// test ();

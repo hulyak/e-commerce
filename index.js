@@ -1,12 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require ('express');
+const bodyParser = require ('body-parser');
+const usersRepo = require ('./repositories/users');
 
-const app = express();
+const app = express ();
 
-app.use(bodyParser.urlencoded({extended : true}))
+app.use (bodyParser.urlencoded ({extended: true}));
 
-app.get('/', (req, res) => {
-  res.send(`
+app.get ('/', (req, res) => {
+  res.send (`
   <div>
     <form method="POST">
       <input name="email" placeholder="email"/>
@@ -15,16 +16,24 @@ app.get('/', (req, res) => {
       <button>Sign up</button>
     </form>
   </div>
-  `)
-})
+  `);
+});
 
+app.post ('/', async (req, res) => {
+  const {email, password, passwordConfirmation} = req.body;
 
-app.post('/',  (req, res) => {
-  console.log(req.body);
-  res.send('account created')
-})
+  const existingUser = await usersRepo.getOneBy ({email: email});
+  if (existingUser) {
+    return res.send ('Email in use');
+  }
 
+  if (password !== passwordConfirmation) {
+    return res.send ('Passwords must match');
+  }
 
-app.listen(3000, () => {
-  console.log('listening on port 3000')
-})
+  res.send ('account created');
+});
+
+app.listen (3000, () => {
+  console.log ('listening on port 3000');
+});
