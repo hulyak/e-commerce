@@ -43,5 +43,10 @@
     "email": "tester@test.com",
     "password": "4488f4fc5b9437a9fbcfd02bc35641682226840238d045b713efc05a7428e3db7ca715d0d85bac3e24d86d48394b7c56f3e3240ab05aee9d7d1e0e5f735c1249.3fbe3f3ca584e17f",
     "id": "d51e55a9"
+  },
+  {
+    "email": "ted@gmail.com",
+    "password": "7cbc9dda57d28ff124e31dc1ced23512ae989fc46e199110681815d2b01d569bad61a1dfd257c9419d2266a7e876300bb69846014ae9374839a0cf7c146bdc02.2eec9bb221636312",
+    "id": "39fb486e"
   }
 ]
