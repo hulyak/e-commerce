@@ -13,10 +13,16 @@ router.get('/admin/products/new', (req, res) => {
 
 router.post('/admin/products/new', [requirePrice, requireTitle], (req, res) => {
   const errors = validationResult(req);
-  console.log(errors);
+
+  //return raw data, multipart-form data submission
+  req.on('data', (data) => {
+    console.log(data.toString());
+  });
+
   // if (!errors.isEmpty()) {
   //   return res.send(productsNewTemplate({ errors }));
   // }
+
   res.send('submitted');
 });
 module.exports = router;

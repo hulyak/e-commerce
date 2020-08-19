@@ -62,8 +62,16 @@ module.exports = {
     }),
 
   //products validation
-  requireTitle: check('title').trim().isLength({ min: 5, max: 40 }),
-  requirePrice: check('price').trim().toFloat().isFloat({ min: 1 }), //turn json string to float, min price 1$
+  requireTitle: check('title')
+    .trim()
+    .isLength({ min: 3, max: 40 })
+    .withMessage('Must be between 3 and 40 characters'),
+
+  requirePrice: check('price')
+    .trim()
+    .toFloat()
+    .isFloat({ min: 1 })
+    .withMessage('Must be a number greater than 1'), //turn json string to float, min price 1$
 };
 
 //https://express-validator.github.io/docs/custom-validators-sanitizers.html
