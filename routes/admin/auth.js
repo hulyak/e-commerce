@@ -6,6 +6,11 @@ const usersRepo = require('../../repositories/users');
 //templates
 const signupTemplate = require('../../views/admin/auth/signup');
 const signinTemplate = require('../../views/admin/auth/signin');
+const {
+  requireEmail,
+  requirePassword,
+  requirePasswordConfirmation,
+} = require('./validators');
 
 //replace app with router, Router object same with app
 const router = express.Router();
@@ -16,36 +21,7 @@ router.get('/signup', (req, res) => {
 
 router.post(
   '/signup',
-  [
-    //first Sanitization then validation
-    check('email')
-      .trim()
-      .normalizeEmail()
-      .isEmail()
-      .withMessage('Must be a valid email')
-      .custom(async (email) => {
-        const existingUser = await usersRepo.getOneBy({ email: email });
-        if (existingUser) {
-          // return res.send('Email in use');
-          throw new Error('Email in use');
-        }
-      }),
-
-    check('password')
-      .trim()
-      .isLength({ min: 6, max: 20 })
-      .withMessage('Must be between 6 and 20 characters'),
-
-    check('passwordConfirmation')
-      .trim()
-      .isLength({ min: 6, max: 20 })
-      .withMessage('Must be between 6 and 20 characters')
-      .custom((passwordConfirmation, { req }) => {
-        if (passwordConfirmation !== req.body.password) {
-          throw new Error('Password confirmation does not match password');
-        }
-      }),
-  ],
+  [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
     const errors = validationResult(req);
     console.log(errors);
