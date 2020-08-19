@@ -30,25 +30,30 @@ router.post(
           throw new Error('Email in use');
         }
       }),
+
     check('password')
       .trim()
       .isLength({ min: 6, max: 20 })
       .withMessage('Must be between 6 and 20 characters'),
+
     check('passwordConfirmation')
       .trim()
       .isLength({ min: 6, max: 20 })
-      .withMessage('Must be between 6 and 20 characters'),
+      .withMessage('Must be between 6 and 20 characters')
+      .custom((passwordConfirmation, { req }) => {
+        if (passwordConfirmation !== req.body.password) {
+          throw new Error('Password confirmation does not match password');
+        }
+      }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     console.log(errors);
 
     const { email, password, passwordConfirmation } = req.body;
-
-    if (password !== passwordConfirmation) {
-      return res.send('Passwords must match');
-    }
-
+    // if (password !== passwordConfirmation) {
+    //   return res.send('Passwords must match');
+    // }
     //Create a user in our user repo to represent this person
     const user = await usersRepo.create({ email, password });
 
