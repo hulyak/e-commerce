@@ -1,11 +1,13 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-
+//replace app with router, Router object same with app
+const router = express.Router();
 //repo
 const usersRepo = require('../../repositories/users');
 //templates
 const signupTemplate = require('../../views/admin/auth/signup');
 const signinTemplate = require('../../views/admin/auth/signin');
+//validators
 const {
   requireEmail,
   requirePassword,
@@ -13,9 +15,6 @@ const {
   requireEmailExists,
   requireValidPasswordForUser,
 } = require('./validators');
-
-//replace app with router, Router object same with app
-const router = express.Router();
 
 router.get('/signup', (req, res) => {
   res.send(signupTemplate({ req: req }));

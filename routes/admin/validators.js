@@ -60,6 +60,10 @@ module.exports = {
         throw new Error('Invalid password');
       }
     }),
+
+  //products validation
+  requireTitle: check('title').trim().isLength({ min: 5, max: 40 }),
+  requirePrice: check('price').trim().toFloat().isFloat({ min: 1 }), //turn json string to float, min price 1$
 };
 
 //https://express-validator.github.io/docs/custom-validators-sanitizers.html
