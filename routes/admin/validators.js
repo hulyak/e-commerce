@@ -27,6 +27,8 @@ module.exports = {
     .custom((passwordConfirmation, { req }) => {
       if (passwordConfirmation !== req.body.password) {
         throw new Error('Password confirmation does not match password');
+      } else {
+        return true;
       }
     }),
 
