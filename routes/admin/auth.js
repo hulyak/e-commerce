@@ -28,10 +28,10 @@ router.post(
     const errors = validationResult(req); //show errors in the form
     if (!errors.isEmpty()) {
       //if there is an error, rerender the form
-      return res.send(signupTemplate({ req: req, errors }));
+      return res.send(signupTemplate({ req, errors }));
     }
 
-    const { email, password, passwordConfirmation } = req.body;
+    const { email, password } = req.body;
     // if (password !== passwordConfirmation) {
     //   return res.send('Passwords must match');
     // }
@@ -51,7 +51,7 @@ router.get('/signout', (req, res) => {
 });
 
 router.get('/signin', (req, res) => {
-  res.send(signinTemplate());
+  res.send(signinTemplate({})); //in case 'errors' object
 });
 
 router.post(
