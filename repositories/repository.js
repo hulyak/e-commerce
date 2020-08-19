@@ -24,6 +24,7 @@ module.exports = class Repository {
     await this.writeAll(records);
     return attributes;
   }
+
   async getAll() {
     //open the file called this.filename, parse the contents of json data
     return JSON.parse(

@@ -42,6 +42,7 @@ class UsersRepository extends Repository {
     return hashed === hashedSuppliedBuf.toString('hex'); //turn buffer into string
   }
 }
+
 //export an instance
 module.exports = new UsersRepository('users.json');
 
