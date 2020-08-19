@@ -2,7 +2,7 @@ const layout = require('../layout');
 
 module.exports = () => {
   return layout({
-    content : `
+    content: `
    <div>
     <form method="POST">
       <input name="email" placeholder="email" />
@@ -10,9 +10,8 @@ module.exports = () => {
       <button>Sign In</button>
     </form>
   </div>
-    `
-  }) 
+    `,
+  });
 };
-
 
 //pass the content value with signin html

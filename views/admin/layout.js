@@ -1,4 +1,4 @@
-module.exports = ({content}) => {
+module.exports = ({ content }) => {
   return `
   <!DOCTYPE html>
     <html>
@@ -8,5 +8,5 @@ module.exports = ({content}) => {
         ${content}
       </body>
   </html>
-  `
-}
+  `;
+};
