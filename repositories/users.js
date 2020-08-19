@@ -1,5 +1,8 @@
 const fs = require ('fs');
 const crypto = require ('crypto');
+const util = require('util'); //util.promisify
+//password hashing algorithm
+const scrypt = util.promisify(crypto.scrypt);
 
 class UsersRepository {
   //check if the user info is saved into a json file
@@ -26,15 +29,27 @@ class UsersRepository {
     );
   }
 
-  async create (attributes) {
-    attributes.id = this.randomId ();
+  async create(attributes) {
+    // attributes === {email: '', password: '' }
+    attributes.id = this.randomId();
 
-    const records = await this.getAll ();
-    records.push (attributes);
+    const salt = crypto.randomBytes(8).toString('hex');
+    // scrypt(attributes.password, salt, 64, (err, buffer) => {
+    //   const hashed = buffer.toString('hex')
+    // })
+
+    //with promisify
+    const buffer = await scrypt(attributes.password, salt, 64)
+
+    const records = await this.getAll();
+    const record = {
+        ...attributes,
+        password: `${buffer.toString('hex')}.${salt}` //hash + salt, replace the password in plain text
+    }
+    records.push(record);
     //write the updated 'records' array back to this.filename
     await this.writeAll (records);
-
-    return attributes;
+    return record;
   }
 
   async writeAll (records) {
