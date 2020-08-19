@@ -29,4 +29,35 @@ module.exports = {
         throw new Error('Password confirmation does not match password');
       }
     }),
+
+  requireEmailExists: check('email')
+    .trim()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage('Must provide a valid email')
+    .custom(async (email) => {
+      const user = await usersRepo.getOneBy({ email });
+      if (!user) {
+        throw new Error('Email not found!');
+      }
+    }),
+
+  requireValidPasswordForUser: check('password')
+    .trim()
+    .custom(async (password, { req }) => {
+      const user = await usersRepo.getOneBy({ email: req.body.email }); //user can be 'undefined'
+      if (!user) {
+        throw new Error('Invalid password');
+      }
+      const validPassword = await usersRepo.comparePasswords(
+        user.password, //from repo
+        password
+      );
+      if (!validPassword) {
+        // return res.send('Invalid password');
+        throw new Error('Invalid password');
+      }
+    }),
 };
+
+//https://express-validator.github.io/docs/custom-validators-sanitizers.html

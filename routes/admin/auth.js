@@ -10,6 +10,8 @@ const {
   requireEmail,
   requirePassword,
   requirePasswordConfirmation,
+  requireEmailExists,
+  requireValidPasswordForUser,
 } = require('./validators');
 
 //replace app with router, Router object same with app
@@ -24,7 +26,6 @@ router.post(
   [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
     const errors = validationResult(req); //show errors in the form
-
     if (!errors.isEmpty()) {
       //if there is an error, rerender the form
       return res.send(signupTemplate({ req: req, errors }));
@@ -55,38 +56,15 @@ router.get('/signin', (req, res) => {
 
 router.post(
   '/signin',
-  [
-    check('email')
-      .trim()
-      .normalizeEmail()
-      .isEmail()
-      .withMessage('Must provide a valid email')
-      .custom(async (email) => {
-        const user = await usersRepo.getOneBy({ email: email });
-        if (!user) {
-          throw new Error('Email not found!');
-        }
-      }),
-    check('password').trim(),
-  ],
+  [requireEmailExists, requireValidPasswordForUser],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(errors);
-    const { email, password } = req.body; //user supplies
+    if (!errors.isEmpty()) {
+      return res.send(signinTemplate({ errors }));
+    }
 
+    const { email } = req.body; //user supplies
     const user = await usersRepo.getOneBy({ email }); //database
-    if (!user) {
-      return res.send('Email not found');
-    }
-
-    const validPassword = await usersRepo.comparePasswords(
-      user.password,
-      password
-    );
-    if (!validPassword) {
-      return res.send('Invalid password');
-    }
-
     // authenticate the user
     req.session.userId = user.id;
     res.send('You are signed in');

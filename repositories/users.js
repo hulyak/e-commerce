@@ -1,29 +1,29 @@
-const fs = require ('fs');
-const crypto = require ('crypto');
+const fs = require('fs');
+const crypto = require('crypto');
 const util = require('util'); //util.promisify
 //password hashing algorithm
 const scrypt = util.promisify(crypto.scrypt);
 
 class UsersRepository {
   //check if the user info is saved into a json file
-  constructor (filename) {
+  constructor(filename) {
     if (!filename) {
-      throw new Error ('Creating a repository requires a filename');
+      throw new Error('Creating a repository requires a filename');
     }
     this.filename = filename;
     //check if the file exists, if it doesn't exist, create new file
     //constructor function cannot be async
     try {
-      fs.accessSync (this.filename);
+      fs.accessSync(this.filename);
     } catch (err) {
-      fs.writeFileSync (this.filename, '[]');
+      fs.writeFileSync(this.filename, '[]');
     }
   }
 
-  async getAll () {
+  async getAll() {
     //open the file called this.filename, parse the contents of json data
-    return JSON.parse (
-      await fs.promises.readFile (this.filename, {
+    return JSON.parse(
+      await fs.promises.readFile(this.filename, {
         encoding: 'utf-8',
       })
     );
@@ -39,16 +39,16 @@ class UsersRepository {
     // })
 
     //with promisify
-    const buffer = await scrypt(attributes.password, salt, 64)
+    const buffer = await scrypt(attributes.password, salt, 64);
 
     const records = await this.getAll();
     const record = {
-        ...attributes,
-        password: `${buffer.toString('hex')}.${salt}` //hash + salt, replace the password in plain text
-    }
+      ...attributes,
+      password: `${buffer.toString('hex')}.${salt}`, //hash + salt, replace the password in plain text
+    };
     records.push(record);
     //write the updated 'records' array back to this.filename
-    await this.writeAll (records);
+    await this.writeAll(records);
     return record;
   }
 
@@ -59,48 +59,48 @@ class UsersRepository {
     // const hashed = result[0]
     // const salt = result[1]
 
-    const [hashed, salt] = saved.split('.')
+    const [hashed, salt] = saved.split('.');
     const hashedSuppliedBuf = await scrypt(supplied, salt, 64);
 
-   return hashed === hashedSuppliedBuf.toString('hex'); //turn buffer into string
+    return hashed === hashedSuppliedBuf.toString('hex'); //turn buffer into string
   }
 
-  async writeAll (records) {
-    await fs.promises.writeFile (
+  async writeAll(records) {
+    await fs.promises.writeFile(
       this.filename,
-      JSON.stringify (records, null, 2) //2 level of indentation
+      JSON.stringify(records, null, 2) //2 level of indentation
     );
   }
 
-  randomId () {
-    return crypto.randomBytes (4).toString ('hex'); //turn buffer data into hex
+  randomId() {
+    return crypto.randomBytes(4).toString('hex'); //turn buffer data into hex
   }
 
-  async getOne (id) {
-    const records = await this.getAll ();
-    return records.find (record => record.id === id);
+  async getOne(id) {
+    const records = await this.getAll();
+    return records.find((record) => record.id === id);
   }
 
-  async delete (id) {
-    const records = await this.getAll ();
-    const filteredRecords = records.filter (record => record.id !== id); //return true
-    await this.writeAll (filteredRecords);
+  async delete(id) {
+    const records = await this.getAll();
+    const filteredRecords = records.filter((record) => record.id !== id); //return true
+    await this.writeAll(filteredRecords);
   }
 
-  async update (id, attributes) {
-    const records = await this.getAll ();
-    const record = records.find (record => record.id === id);
+  async update(id, attributes) {
+    const records = await this.getAll();
+    const record = records.find((record) => record.id === id);
 
     if (!record) {
-      throw new Error (`Record with id ${id} not found`);
+      throw new Error(`Record with id ${id} not found`);
     }
     // Object.assign mutates the first argument passed to it.  In other words, we are making changes to the 'record' object - we are not creating a new one.
-    Object.assign (record, attributes);
-    await this.writeAll (records);
+    Object.assign(record, attributes);
+    await this.writeAll(records);
   }
 
-  async getOneBy (filters) {
-    const records = await this.getAll ();
+  async getOneBy(filters) {
+    const records = await this.getAll();
     for (let record of records) {
       //array
       let found = true;
@@ -119,7 +119,7 @@ class UsersRepository {
   }
 }
 //export an instance
-module.exports = new UsersRepository ('users.json');
+module.exports = new UsersRepository('users.json');
 
 // const test = async () => {
 //   const repo = new UsersRepository ('users.json');
