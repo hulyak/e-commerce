@@ -19,9 +19,11 @@ router.post(
   '/admin/products/new',
   [requirePrice, requireTitle], //validation
   upload.single('image'), //multer
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
-    console.log(req.file);
+    const image = req.file.buffer.toString('base64'); //return raw data into string, save into database
+    const { title, price } = req.body;
+    await productsRepo.create({ title, price, image });
 
     //return raw data, multipart-form data submission
     // req.on('data', (data) => {

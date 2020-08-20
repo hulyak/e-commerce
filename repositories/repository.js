@@ -89,3 +89,20 @@ module.exports = class Repository {
 };
 
 //extend from parent Repository
+
+// const test = async () => {
+//   const repo = new UsersRepository ('users.json');
+// await repo.create ({email: 'test@test.com', password: 'password'});
+// const users = await repo.getAll ();
+// const user = await repo.getOne('4b434f0e');
+// await repo.delete ('7596463b');
+// console.log (user);
+// await repo.update ('02ab2230', {name: 'hulya'});
+//   const user = await repo.getOneBy ({
+//     email: 'test@test.com',
+//     id: '02ab2230',
+//   });
+//   console.log (user);
+// };
+
+// test ();
