@@ -15,4 +15,12 @@ module.exports = {
       next(); //if there is an error, it doesn't run
     };
   },
+
+  //require auth to edit or create products from admin panel
+  requireAuth(req, res, next) {
+    if (!req.session.userId) {
+      return res.redirect('/signin');
+    }
+    next();
+  },
 };
