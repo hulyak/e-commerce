@@ -1,7 +1,7 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator');
 //replace app with router, Router object same with app
 const router = express.Router();
+const { handleErrors } = require('./middlewares');
 //repo
 const usersRepo = require('../../repositories/users');
 //templates
@@ -23,13 +23,8 @@ router.get('/signup', (req, res) => {
 router.post(
   '/signup',
   [requireEmail, requirePassword, requirePasswordConfirmation],
+  handleErrors(signupTemplate),
   async (req, res) => {
-    const errors = validationResult(req); //show errors in the form
-    if (!errors.isEmpty()) {
-      //if there is an error, rerender the form
-      return res.send(signupTemplate({ req, errors }));
-    }
-
     const { email, password } = req.body;
     // if (password !== passwordConfirmation) {
     //   return res.send('Passwords must match');
@@ -56,12 +51,8 @@ router.get('/signin', (req, res) => {
 router.post(
   '/signin',
   [requireEmailExists, requireValidPasswordForUser],
+  handleErrors(signinTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.send(signinTemplate({ errors }));
-    }
-
     const { email } = req.body; //user supplies
     const user = await usersRepo.getOneBy({ email }); //database
     // authenticate the user
