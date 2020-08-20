@@ -15,6 +15,7 @@ module.exports = {
         throw new Error('Email in use');
       }
     }),
+
   requirePassword: check('password')
     .trim()
     .isLength({ min: 4, max: 20 })
