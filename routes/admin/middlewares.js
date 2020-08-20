@@ -17,6 +17,7 @@ module.exports = {
   },
 
   //require auth to edit or create products from admin panel
+  //if the user is signed in, we can access the req.session.id
   requireAuth(req, res, next) {
     if (!req.session.userId) {
       return res.redirect('/signin');
