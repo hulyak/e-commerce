@@ -1,15 +1,19 @@
 const { validationResult } = require('express-validator');
 
 module.exports = {
-  handleErrors(templateFunc) {
+  handleErrors(templateFunc, dataCallback) {
     //replace with the appropriate temp.
-    return (req, res, next) => {
+    return async (req, res, next) => {
       //middleware function
       const errors = validationResult(req); //show errors in the form
 
       if (!errors.isEmpty()) {
+        let data = {};
+        if (dataCallback) {
+          data = await dataCallback(req);
+        }
         // if there is an error, rerender the form
-        return res.send(templateFunc({ errors }));
+        return res.send(templateFunc({ errors, ...data }));
       }
 
       next(); //if there is an error, it doesn't run
