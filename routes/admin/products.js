@@ -17,10 +17,13 @@ router.get('/admin/products/new', (req, res) => {
 
 router.post(
   '/admin/products/new',
-  [requirePrice, requireTitle], //validation
   upload.single('image'), //multer
+  [requirePrice, requireTitle], //validation
   async (req, res) => {
     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.send(productsNewTemplate({ errors }));
+    }
     const image = req.file.buffer.toString('base64'); //return raw data into string, save into database
     const { title, price } = req.body;
     await productsRepo.create({ title, price, image });
