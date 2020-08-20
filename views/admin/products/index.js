@@ -8,7 +8,7 @@ module.exports = ({ products }) => {
     <div>${product.title}</div>
     `;
     })
-    .join('');
+    .join(''); // join the array of strings
 
   return layout({
     content: `

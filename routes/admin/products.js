@@ -34,7 +34,7 @@ router.post(
     //   console.log(data.toString());
     // });
 
-    res.send('submitted');
+    res.redirect('/admin/products');
   }
 );
 
