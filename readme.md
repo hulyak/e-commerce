@@ -26,7 +26,7 @@ So only administrators are required to log into the Web site, an end user or lik
 
 ### Database and password validation
 
-Users are saved into database and passwords are hashed and salted. Also validated with express-validator.
+Users are saved into database and passwords are hashed and salted. Also, input values are validated with express-validator.
 
 
 
