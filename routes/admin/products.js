@@ -3,12 +3,17 @@ const multer = require('multer'); //handle multi-part file upload
 
 const productsRepo = require('../../repositories/products');
 const productsNewTemplate = require('../../views/admin/products/new');
-const { requireTitle, requirePrice } = require('./validators');
+const productsIndexTemplate = require('../../views/admin/products/index');
+const { requireTitle, requirePrice, requireImage } = require('./validators');
 const { handleErrors } = require('./middlewares');
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.get('/admin/products', (req, res) => {});
+//product listing
+router.get('/admin/products', async (req, res) => {
+  const products = await productsRepo.getAll();
+  res.send(productsIndexTemplate({ products }));
+});
 
 router.get('/admin/products/new', (req, res) => {
   res.send(productsNewTemplate({}));
@@ -17,7 +22,7 @@ router.get('/admin/products/new', (req, res) => {
 router.post(
   '/admin/products/new',
   upload.single('image'), //multer
-  [requirePrice, requireTitle], //validation
+  [requirePrice, requireTitle, requireImage], //validation
   handleErrors(productsNewTemplate),
   async (req, res) => {
     const image = req.file.buffer.toString('base64'); //return raw data into string, save into database

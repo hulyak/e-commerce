@@ -73,6 +73,16 @@ module.exports = {
     .toFloat()
     .isFloat({ min: 1 })
     .withMessage('Must be a number greater than 1'), //turn json string to float, min price 1$
+
+  requireImage: check('image').custom((image, { req }) => {
+    const file = req.file;
+    if (!file) {
+      throw new Error('Please upload file');
+    }
+    return (req, res, next) => {
+      next();
+    };
+  }),
 };
 
 //https://express-validator.github.io/docs/custom-validators-sanitizers.html
