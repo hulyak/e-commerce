@@ -79,4 +79,5 @@ router.post('/admin/products/:id/delete', requireAuth, async (req, res) => {
 
   res.redirect('/admin/products');
 });
+
 module.exports = router;
