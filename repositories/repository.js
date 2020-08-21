@@ -26,7 +26,7 @@ module.exports = class Repository {
   }
 
   async getAll() {
-    //open the file called this.filename, parse the contents of json data
+    //open the file called this.filename, parse the contents of json data, and return an array of objects
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
         encoding: 'utf-8',
