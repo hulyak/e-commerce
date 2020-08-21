@@ -42,7 +42,7 @@ router.get('/cart', async (req, res) => {
   if (!req.session.cartId) {
     return res.redirect('/');
   }
-  const card = await cartsRepo.getOne(req.session.cartId);
+  const cart = await cartsRepo.getOne(req.session.cartId);
 
   for (let item of cart.items) {
     // item === {id, quantity}
