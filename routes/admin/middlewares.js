@@ -8,14 +8,13 @@ module.exports = {
       const errors = validationResult(req); //show errors in the form
 
       if (!errors.isEmpty()) {
-        let data = {};
+        let data = {}; //data can be undefined assign to empty object
         if (dataCallback) {
           data = await dataCallback(req);
         }
         // if there is an error, rerender the form
         return res.send(templateFunc({ errors, ...data }));
       }
-
       next(); //if there is an error, it doesn't run
     };
   },
@@ -29,3 +28,5 @@ module.exports = {
     next();
   },
 };
+
+//dataCallback for products edit route

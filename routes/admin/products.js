@@ -56,6 +56,7 @@ router.post(
   requireAuth,
   upload.single('image'),
   [requirePrice, requireTitle, requireImage],
+  //change the signature of handleErrors, second argument for errors argument in the middleware
   handleErrors(productsEditTemplate, async (req) => {
     const product = await productsRepo.getOne(req.params.id);
     return { product };
@@ -73,4 +74,9 @@ router.post(
   }
 );
 
+router.post('/admin/products/:id/delete', requireAuth, async (req, res) => {
+  await productsRepo.delete(req.params.id);
+
+  res.redirect('/admin/products');
+});
 module.exports = router;
