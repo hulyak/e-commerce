@@ -1,31 +1,6 @@
 [
   {
-    "items": [
-      {
-        "id": "ed1a0390",
-        "quantity": 4
-      },
-      {
-        "id": "5755ac09",
-        "quantity": 2
-      },
-      {
-        "id": "f6b1fbbc",
-        "quantity": 2
-      },
-      {
-        "id": "84d23150",
-        "quantity": 1
-      },
-      {
-        "id": "ac3d7258",
-        "quantity": 1
-      },
-      {
-        "id": "62b582ba",
-        "quantity": 1
-      }
-    ],
+    "items": [],
     "id": "ab7e8116"
   }
 ]
