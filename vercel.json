@@ -1,0 +1,60 @@
+{
+  "version" : 2,
+  "routes" : [
+    {
+      "src" : "/signup",
+      "dest" : "/routes/admin/auth.js",
+      "methods" : ["POST", "GET"]
+    },
+     {
+      "src" : "/signout",
+      "dest" : "/routes/admin/auth.js",
+      "methods" : ["GET"]
+    },
+    {
+      "src" : "/signin",
+      "dest" : "/routes/admin/auth.js",
+      "methods" : ["GET", "POST"]
+    },
+      {
+      "src" : "/admin/products",
+      "dest" : "/routes/admin/products.js",
+      "methods" : ["GET"]
+    },
+      {
+      "src" : "/admin/products/new",
+      "dest" : "/routes/admin/products.js",
+      "methods" : ["GET", "POST"]
+    },
+    {
+      "src" : "/admin/products/:id/edit",
+      "dest" : "/routes/admin/products.js",
+      "methods" : ["GET", "POST"]
+    },
+     {
+      "src" : "/admin/products/:id/delete",
+      "dest" : "/routes/admin/products.js",
+      "methods" : ["POST"]
+    },
+       {
+      "src" : "/cart/products",
+      "dest" : "/routes/carts.js",
+      "methods" : ["POST"]
+    },
+      {
+      "src" : "/cart",
+      "dest" : "/routes/carts.js",
+      "methods" : ["GET"]
+    },
+      {
+      "src" : "/cart/products/delete",
+      "dest" : "/routes/carts.js",
+      "methods" : ["POST"]
+    },
+      {
+      "src" : "/",
+      "dest" : "/routes/products.js",
+      "methods" : ["GET"]
+      }
+  ]
+}
