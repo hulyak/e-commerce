@@ -10,14 +10,19 @@
 
 ### User interface 
 
+![shop](public/images/shop.png)
+
 App allows users to view items and shop, add them to a cart and eventually attempt to purchase them.
 
 ### Admin panel 
 
+![adminn](public/images/admin.png)
+![admin](public/images/admin-panel.png)
 Administer has the ability to add new items, edit existing ones or delete existing ones as well.
 
 ### Authentication 
 
+![signup](public/images/signup.png)
 User's session saved into cookie-session to authenticate the user.
 
 If a user decides to create a product or edit an existing one, user fills out a form for the product. User should be signed up to the app to access the admin panel.
@@ -33,6 +38,8 @@ So only administrators are required to log into the Web site, an end user or lik
 - administrators 
 
 ### Database and password validation
+
+![checkout](public/images/checkout.png)
 
 Users are saved into database and passwords are hashed and salted. Also, input values are validated with express-validator.
 
