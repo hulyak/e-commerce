@@ -1,5 +1,11 @@
 # E-commerce [![Run on Repl.it](https://repl.it/badge/github/hulyak/e-commerce)](https://repl.it/github/hulyak/e-commerce)
 
+## Installation
+
+- Make sure `Node` is installed.
+- Download the dependencies with `npm install`
+- Run the project on `http://localhost:3000/` with `npm start`
+
 ### User interface 
 
 App allows users to view items and shop, add them to a cart and eventually attempt to purchase them.
